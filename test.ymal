@@ -1,0 +1,23 @@
+execution:
+  - executor: selenium
+    scenario: test_scenario
+    iterations: 1
+    concurrency: 1
+    hold-for: 1m
+
+scenarios:
+  test_scenario:
+    script: src/BlazeMeterTest.java
+    browser: chrome
+
+modules:
+  selenium:
+    # Path to the WebDriver executable, optional if it's already in your system PATH
+    # chromedriver: /path/to/chromedriver
+
+reporting:
+  - module: console
+  - module: final-stats
+  - module: blazemeter
+    token: YOUR_BLAZEMETER_API_TOKEN
+    report-name: "Selenium Test Report"
