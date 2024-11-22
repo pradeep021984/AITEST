@@ -45,6 +45,5 @@ class RegistrationPage {
         return driver.findElement(By.id("registerButton")).getText(); //Replace with your register button locator
     }
 }
-```
 
-Remember to replace placeholder locators (By.id(), By.xpath(), etc.) and URLs with your actual application's elements and URLs.  You'll also need to add appropriate dependencies for Selenium and Cucumber to your project's `pom.xml`.  This code provides a robust structure, but error handling and more detailed assertions should be added for production-level testing.
+//Remember to replace placeholder locators (By.id(), By.xpath(), etc.) and URLs with your actual application's elements and URLs.  You'll also need to add appropriate dependencies for Selenium and Cucumber to your project's `pom.xml`.  This code provides a robust structure, but error handling and more detailed assertions should be added for production-level testing.
