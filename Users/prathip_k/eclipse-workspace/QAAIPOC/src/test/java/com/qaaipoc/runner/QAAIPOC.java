@@ -1,4 +1,4 @@
-package java.com.qaaipoc;
+package com.qaaipoc;
 
 public class QAAIPOC {
     public static void main(String[] args) {
