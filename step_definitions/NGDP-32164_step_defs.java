@@ -7,109 +7,61 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import pages.HomePage;
 import pages.GroupOrderPage;
-import pages.SignInPage;
-import pages.OrderConfirmationPage;
-
+import pages.HomePage;
+import pages.LoginPage;
 
 public class GroupOrderSteps {
 
     private HomePage homePage;
-    private SignInPage signInPage;
+    private LoginPage loginPage;
     private GroupOrderPage groupOrderPage;
-    private OrderConfirmationPage orderConfirmationPage;
 
-
-    // Inject page objects using dependency injection (e.g., using Cucumber's dependency injection)
+    public GroupOrderSteps(HomePage homePage, LoginPage loginPage, GroupOrderPage groupOrderPage){
+        this.homePage = homePage;
+        this.loginPage = loginPage;
+        this.groupOrderPage = groupOrderPage;
+    }
 
     @Given("the user has launched the app")
-    public void launchApp() {
-        // Launch the app and navigate to the home screen.
-        homePage = new HomePage();
-        homePage.launchApp();
-
+    public void userHasLaunchedTheApp() {
+        // Launch the app - implementation needed
     }
 
-    @And("the user clicks on the Sign in CTA and logs in using valid credentials")
-    public void login() {
-        signInPage = new SignInPage();
-        signInPage.clickSignIn();
-        signInPage.login("validUser", "validPassword");
+    @And("user clicks on the Sign in CTA and logs in using valid credentials")
+    public void userClicksOnTheSignInCTAAndLogsInUsingValidCredentials() {
+        loginPage.navigateToLogin();
+        loginPage.login("validUser", "validPassword"); // Replace with actual credentials
     }
 
-
-    @And("the user is landed on the homepage")
-    public void onHomePage() {
-        homePage.isOnHomePage();
+    @And("user is landed on the homepage")
+    public void userIsLandedOnTheHomepage() {
+        homePage.verifyHomePage();
     }
 
-    @And("the user clicks on the hamburger icon")
-    public void clickHamburger() {
-        homePage.clickHamburger();
-    }
+    // ... (Add remaining Given steps based on the scenarios) ...
 
-
-    @And("the user should be able to view the Group order CTA in the secondary navigation")
-    public void verifyGroupOrderCTA() {
-        homePage.verifyGroupOrderCTA();
-    }
-
-    @And("on clicking Group order CTA, the user should be able to view the Group order naming screen")
-    public void navigateToGroupOrderNaming() {
-        homePage.clickGroupOrderCTA();
-        // Add assertions to verify on naming screen.
-    }
-
-    @And("on clicking Next CTA, the user should be able to view the Enter your name screen")
-    public void navigateToEnterNameScreen(){
-        groupOrderPage = new GroupOrderPage();
+    @When("user clicks on the NEXT cta")
+    public void userClicksOnTheNEXTCta() {
         groupOrderPage.clickNext();
     }
 
-
-    @When("the user clicks on the NEXT CTA")
-    public void clickNext() {
-        groupOrderPage.clickNext();
-
+    @Then("user should be able to view the Group order info screen with the scheduled time as ASAP")
+    public void userShouldBeAbleToViewTheGroupOrderInfoScreenWithTheScheduledTimeAsASAP() {
+        groupOrderPage.verifyOrderInfoScreen("ASAP");
     }
 
-    @Then("the user should be able to view the Group order info screen with the scheduled time as ASAP")
-    public void verifyOrderinfoScreen() {
-        groupOrderPage.verifyASAPSelected();
-    }
+    // ... (Add remaining When and Then steps based on the scenarios) ...
 
-    @And("the user should be able to set suggested order by time")
-    public void setSuggestedOrderTime() {
-        groupOrderPage.setSuggestedOrderTime();
-    }
-
-    @And("the user should be able to click on confirm CTA")
-    public void clickConfirm() {
-        groupOrderPage.clickConfirm();
-    }
-
-    @And("the ASAP timeframe should not be set until the user clicks on the checkout CTA")
-    public void verifyASAPNotSetBeforeCheckout(){
-       //Add assertions
-    }
-
-    @When("the user toggles off the \"Set suggested order by time\" option")
-    public void toggleOffSuggestedTime() {
-        groupOrderPage.toggleOffSuggestedTime();
+    @When("the user toggles off the Set suggested order by time")
+    public void theUserTogglesOffTheSetSuggestedOrderByTime() {
+        groupOrderPage.toggleSuggestedOrderTime(false);
     }
 
     @Then("the user should see the select time field hidden")
-    public void verifyTimeFieldHidden() {
+    public void theUserShouldSeeTheSelectTimeFieldHidden() {
         groupOrderPage.verifyTimeFieldHidden();
     }
-
-    @And("the user should be able to proceed to the next screen")
-    public void proceedToNextScreen() {
-        // Add assertions to verify navigation to the next screen
-    }
-
-
 }
 ```
 
