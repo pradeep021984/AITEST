@@ -1,64 +1,52 @@
-Feature: View Group Member Items
+Feature: Group Order - View Member Items
 
-Scenario Outline: Successful View of Group Member Items
-Given the user is on the cart screen
-And other group members have successfully submitted items
-When the user views the cart
-Then the user should see items submitted by other group members
-Examples:
-| member1Items | member2Items |
-|---|---|
-| Apple, Banana | Orange, Grape |
-| Bread, Milk | Cheese, Eggs |
-|  | Coffee, Tea |
-
-
-Scenario Outline: View "No Items" Message After Item Removal
-Given the user is on the cart screen
-And other group members have successfully submitted items
-When the host removes "<item>" submitted by "<member>"
-Then the user should see "No Items" for <member>
-Examples:
-| item | member |
-|---|---|
-| Apple | Member1 |
-| Orange | Member2 |
-| Coffee | Member3 |
+  Scenario Outline: View other members' items
+    Given the user is on the cart screen
+    And the group order has been successfully submitted by at least one member
+    When the user views the cart
+    Then the user should see items from other group members
+    Examples:
+      | memberCount |
+      | 1           |
+      | 2           |
+      | 3           |
 
 
-Scenario: UI Check for Item Details
-Given the user is on the cart screen
-And other group members have successfully submitted items
-When the user views the cart
-Then the item details (copy, size, styling) should match the Figma design
+  Scenario Outline: Host removes items - No Items message
+    Given the user is on the cart screen
+    And the group order has at least one successfully submitted item from another member
+    When the host removes a successfully submitted item from another member
+    Then the user should see "No Items" message for that member
+    Examples:
+      | member | itemName |
+      | Member A | Item 1 |
+      | Member B | Item 2 |
 
 
-Scenario: Guest User Access
-Given the user is a guest user
-And other group members have successfully submitted items
-When the user navigates to the group order cart
-Then the user should see items submitted by other group members
+  Scenario: UI verification of "No Items" message
+    Given the user is on the cart screen and a member has no items
+    Then the "No Items" message should match the Figma design in terms of copy, size, and styling
 
 
-Scenario:  No Group Members Submitted Items
-Given the user is on the cart screen
-And no other group members have submitted items
-When the user views the cart
-Then the user should see a message indicating no items submitted by other members
+  Scenario: View other members' items - Guest User
+    Given the user is a guest and on the cart screen
+    And the group order has been successfully submitted by at least one member
+    When the user views the cart
+    Then the user should see items from other group members
 
 
-Scenario: Error Handling -  Network Issue
-Given the user is on the cart screen
-And there is a network issue
-When the user views the cart
-Then the user should see an appropriate error message
+  Scenario: Error handling - No Group Order
+    Given the user is on the cart screen
+    And there is no active group order
+    When the user tries to view other members' items
+    Then an appropriate error message should be displayed
 
 
-Scenario: Error Handling -  Server Error
-Given the user is on the cart screen
-And there is a server error
-When the user views the cart
-Then the user should see an appropriate error message
+  Scenario: Error handling - Network issue
+    Given the user is on the cart screen
+    And there is a network issue
+    When the user tries to view other members' items
+    Then an appropriate error message should be displayed
 
 
 
