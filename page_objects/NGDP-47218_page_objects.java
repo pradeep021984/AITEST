@@ -1,40 +1,41 @@
 *****************
 
-//Page Object Code (Java) - Skeleton only. Requires implementation based on your framework and locators
+//Page Object Code (Java - Example)
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+public class CartPage {
 
-import java.util.List;
-
-public class GroupOrderPage {
-
+    //WebElements or other locators here using Selenium (example)
     private WebDriver driver;
 
-    @FindBy(css = "#member1Items") // Example Locator - Replace with actual locator
-    private List<WebElement> member1Items;
-
-
-    // Add other WebElements as needed
-
-
-    public GroupOrderPage(){
-        //Constructor logic to initialize driver
+    public CartPage(){
+        //Initialize driver
     }
 
     public void navigateToCart(){
-        // Logic to navigate to Cart Page
-    }
-
-    public void simulateOtherMembersSubmissions() {
-        //Logic to simulate submissions
+        //Implement navigation logic
     }
 
     public boolean areOtherMembersItemsVisible(){
-        // Logic to check visibility of other members items
-        return !member1Items.isEmpty();
+        //Implement logic to verify items are visible.  Return true/false
+        return true;
     }
-        // Add more methods as needed
+
+
+    public void removeItem(String itemName){
+        //Implement logic to remove item
+    }
+
+    public boolean isNoItemsMessageDisplayed(){
+        //Implement logic to check for "No Items" message. Return true/false
+        return true;
+    }
+
+    public boolean isNoItemsMessageCorrectlyStyled(){
+        //Implement logic to compare with figma design. Return true/false
+        return true;
+    }
+
+
 }
+
+//Other page objects for other screens would go here
