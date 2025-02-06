@@ -1,52 +1,55 @@
-Feature: Group Order - View Member Items
 
-  Scenario Outline: View other members' items
+
+
+Feature: View Group Order Items
+
+  Scenario: View successfully submitted items
     Given the user is on the cart screen
-    And the group order has been successfully submitted by at least one member
+    And other group members have successfully submitted items
     When the user views the cart
-    Then the user should see items from other group members
-    Examples:
-      | memberCount |
-      | 1           |
-      | 2           |
-      | 3           |
+    Then the user should see all submitted items from other group members
 
-
-  Scenario Outline: Host removes items - No Items message
+  Scenario: View "No Items" message after item removal
     Given the user is on the cart screen
-    And the group order has at least one successfully submitted item from another member
-    When the host removes a successfully submitted item from another member
+    And other group members have successfully submitted items
+    When the host removes an item submitted by another member
     Then the user should see "No Items" message for that member
-    Examples:
-      | member | itemName |
-      | Member A | Item 1 |
-      | Member B | Item 2 |
 
+  Scenario: Verify UI elements after item removal (Negative)
+    Given the user is on the cart screen
+    And other group members have successfully submitted items
+    When the host removes an item submitted by another member
+    Then the "No Items" message should match the Figma design in terms of text, size, and styling
 
-  Scenario: UI verification of "No Items" message
-    Given the user is on the cart screen and a member has no items
-    Then the "No Items" message should match the Figma design in terms of copy, size, and styling
-
-
-  Scenario: View other members' items - Guest User
-    Given the user is a guest and on the cart screen
-    And the group order has been successfully submitted by at least one member
+  Scenario: Handle empty group order (Negative)
+    Given the user is on the cart screen
+    And no other group members have submitted items
     When the user views the cart
-    Then the user should see items from other group members
+    Then the user should see a message indicating no items are available  or appropriate empty state
+
+  Scenario: User is not on the cart screen (Negative)
+    Given the user is on the home screen
+    When the user attempts to view group order items
+    Then the user should be redirected to the cart screen or receive an appropriate error message
 
 
-  Scenario: Error handling - No Group Order
+  Scenario: Invalid group order ID (Negative)
+    Given the user is on the cart screen with an invalid group order ID
+    When the user views the cart
+    Then an appropriate error message should be displayed.
+
+
+  Scenario: Network error during group order retrieval (Negative)
     Given the user is on the cart screen
-    And there is no active group order
-    When the user tries to view other members' items
-    Then an appropriate error message should be displayed
+    When the network is disconnected while trying to view group order items
+    Then the user should see a network error message.
 
-
-  Scenario: Error handling - Network issue
+  Scenario: Verify UI elements for submitted items (Positive)
     Given the user is on the cart screen
-    And there is a network issue
-    When the user tries to view other members' items
-    Then an appropriate error message should be displayed
+    And other group members have successfully submitted items
+    When the user views the cart
+    Then the UI elements for each submitted item (e.g., item name, quantity, price) should match the Figma design.
+
 
 
 
