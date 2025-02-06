@@ -1,63 +1,64 @@
+
 Feature: Group Order Cart Navigation
 
-  Scenario Outline: Empty Cart Navigation
-    Given the user is on the group order cart page
-    And the user's order section is <userOrderState>
-    And the member order section is <memberOrderState>
-    When the host removes the last member item
-    Then the host should be navigated to the group ordering cart page
+  Scenario Outline: Navigation to Group Ordering Cart Page after Emptying Orders
+    Given the user is on the cart page
+    And the "your order" section is <your_order_status>
+    And the "member order" section is <member_order_status>
+    When the host removes the member items
+    Then the host should be able to view the group ordering cart page
 
     Examples:
-      | userOrderState | memberOrderState |
-      | Empty          | Empty          |
-      | Empty          | Non-Empty      |
-      | Non-Empty      | Empty          |
-      | Non-Empty      | Non-Empty      |
+      | your_order_status | member_order_status |
+      | empty             | empty             |
+      | empty             | not empty         |
+      | not empty         | empty             |
 
 
-  Scenario: Verify Navigation from Empty Member Order Section
-    Given the user is on the group order cart page
-    And the user's order section is Non-Empty
-    And the member order section is Empty
-    When the user navigates away from the member order section
-    Then the user should remain on the group order cart page
-
-  Scenario: Verify Navigation from Empty User Order Section
-    Given the user is on the group order cart page
-    And the user's order section is Empty
-    And the member order section is Non-Empty
-    When the user navigates away from the user order section
-    Then the user should remain on the group order cart page
-
-  Scenario: UI Verification on Empty Cart
-    Given the user is on the group ordering cart page
-    And the user's order section is empty
-    And the member order section is empty
-    Then the "Group Order Cart is Empty" message should be displayed
-    And the "Start Ordering" button should be visible
-
-  Scenario: Negative Test - Attempt to Checkout with Empty Cart
-    Given the user is on the group ordering cart page
-    And the user's order section is empty
-    And the member order section is empty
-    When the user taps the "Checkout" button
-    Then an error message should be displayed indicating that the cart is empty
-
-  Scenario: Functional Test - Add Item to Cart from Empty State
-    Given the user is on the group ordering cart page
-    And the user's order section is empty
-    And the member order section is empty
-    When the user adds an item to their order
-    Then the user should be on the group order cart page
-    And the added item should be displayed in the user's order section
+  Scenario: Handling Error - No Group Order Exists
+    Given the user is on the cart page
+    And no group order exists
+    When the host attempts to remove member items
+    Then an appropriate error message should be displayed
 
 
-  Scenario: UI Test - Verify Cart Item Display
-    Given the user is on the group order cart page
-    And the user's order section contains items
-    Then the items should be displayed correctly with name, quantity, and price.
+  Scenario: Handling Error - User Not Logged In
+    Given the user is not logged in
+    When the user attempts to access the cart page
+    Then the user should be redirected to the login page
 
-  Scenario: Negative Test - Removing Non-Existent Item
-    Given the user is on the group order cart page
-    When the user attempts to remove an item that does not exist
-    Then an appropriate error message or no change should be observed.
+  Scenario: UI Check - Cart Page Elements
+      Given the user is on the cart page
+      Then the "Your Order" section should be displayed
+      And the "Member Order" section should be displayed
+      And a "Proceed to Checkout" button should be displayed
+
+  Scenario: Functional Check - Item Removal from Your Order
+    Given the user is on the cart page
+    And the "your order" section is not empty
+    When the user removes an item from "your order"
+    Then the item should be removed from the cart
+    And the cart total should be updated
+
+  Scenario: Functional Check - Item Removal from Member Order (Host)
+    Given the user is on the cart page
+    And the "member order" section is not empty
+    When the host removes an item from "member order"
+    Then the item should be removed from the member order section
+    And the cart total should be updated
+
+  Scenario: Negative Test - Attempt to Remove Non-Existent Item
+    Given the user is on the cart page
+    When the user attempts to remove a non-existent item
+    Then an appropriate error message should be displayed
+
+
+  Scenario: Negative Test - Attempt to remove item without permissions
+    Given the user is a member and on the cart page
+    And the "member order" section is not empty
+    When the member attempts to remove an item from the "member order"
+    Then the action should be blocked and an appropriate message should be displayed
+
+
+
+***********
