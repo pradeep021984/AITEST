@@ -1,9 +1,7 @@
 *****************
 
+# Page Object Code (Java - Example)
 
-
-
-package pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,54 +10,66 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
-
 public class CartPage {
 
     private WebDriver driver;
     private WebDriverWait wait;
 
-    @FindBy(id = "yourOrderSection") //Replace with actual locator
+    //Page elements (using Selenium locators)
+
+    @FindBy(id = "yourOrderSection")
     private WebElement yourOrderSection;
 
-    @FindBy(id = "memberOrderSection") //Replace with actual locator
+    @FindBy(id = "memberOrderSection")
     private WebElement memberOrderSection;
 
+    @FindBy(id = "removeMemberItemButton")
+    private WebElement removeMemberItemButton;
 
-    @FindBy(id = "removeLastMemberItemButton") //Replace with actual locator
-    private WebElement removeLastMemberItemButton;
+    @FindBy(id = "groupOrderTitle")
+    private WebElement groupOrderTitle;
 
-    @FindBy(id = "groupOrderingCartPageTitle") //Replace with actual locator
-    private WebElement groupOrderingCartPageTitle;
+    @FindBy(id = "createOrderButton")
+    private WebElement createOrderButton;
 
+
+    //Constructor
     public CartPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, 10);
         PageFactory.initElements(driver, this);
     }
 
-    public void navigateToCartPage() {
-        // Add logic to navigate to the cart page
+    public void navigateToCartPage(){
+        //logic to navigate to cart
     }
 
-    public void verifyYourOrderIsEmpty() {
-        wait.until(ExpectedConditions.visibilityOf(yourOrderSection));
-        // Add assertion to check if your order section is empty
+    public void verifyYourOrderStatus(String status){
+        //logic to verify your order section
     }
 
-    public void verifyMemberOrderIsEmpty() {
-        wait.until(ExpectedConditions.visibilityOf(memberOrderSection));
-        // Add assertion to check if member order section is empty
+    public void verifyMemberOrderStatus(String status){
+        //logic to verify member order section
     }
+
 
     public void removeLastMemberItem() {
-        wait.until(ExpectedConditions.elementToBeClickable(removeLastMemberItemButton));
-        removeLastMemberItemButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(removeMemberItemButton));
+        removeMemberItemButton.click();
     }
 
 
-    public void verifyGroupOrderingCartPage() {
-        wait.until(ExpectedConditions.visibilityOf(groupOrderingCartPageTitle));
-        // Add assertion to check if the group ordering cart page is displayed
+    public void verifyCartPageDisplayed(){
+        //Logic to verify cart page elements
     }
+
+      public void verifyGroupOrderTitle(){
+        wait.until(ExpectedConditions.visibilityOf(groupOrderTitle));
+    }
+
+    public void verifyCreateOrderButton(){
+        wait.until(ExpectedConditions.visibilityOf(createOrderButton));
+
+    }
+     //Add methods for other scenarios
 }
