@@ -1,9 +1,7 @@
 *****************
 
 
-
-
-package pages;
+//Page Object Code (Java) -Skeleton code.  Expand based on app structure
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,56 +9,37 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-import java.util.List;
-
 public class CartPage {
 
     private WebDriver driver;
 
-    @FindBy(id = "cartButton") // Replace with actual locator
-    private WebElement cartButton;
+    @FindBy(id = "cart-items-container") //Replace with actual locator
+    private WebElement cartItemsContainer;
 
-    @FindBy(className = "item-container") //Replace with actual locator
-    private List<WebElement> items;
-
-    @FindBy(id = "noItemsMessage") // Replace with actual locator
+    @FindBy(id = "no-items-message") //Replace with actual locator
     private WebElement noItemsMessage;
 
-    //Add other locators as needed from the Figma design (e.g., text size, styling)
 
-
-    public CartPage(WebDriver driver) {
+    public CartPage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver, this);
     }
 
-
-    public void navigateToCartScreen() {
-        cartButton.click();
+    public boolean areItemsVisible(){
+        //Implementation to check if items are visible
+        return cartItemsContainer.isDisplayed();
     }
 
-    public void ensureItemsSubmittedByOthers() {
-        // Logic to ensure that items are submitted by other members before this step is executed
-        // This may involve API calls or checking UI elements
+    public String getNoItemsMessage(){
+        return noItemsMessage.getText();
     }
 
-    public boolean areAllItemsVisible() {
-        return items.size() > 0; // Adjust condition based on your app's implementation
+    public void removeItem(String itemName){
+        //Implementation to remove a specific item
     }
 
-    public void removeAnItem() {
-        // Logic to remove an item from the cart
-        items.get(0).findElement(By.className("removeItem")).click(); //Replace with actual locator
-    }
+    //Add other methods as per your application's structure.  For example methods to get the text, styling details for UI validation.
 
-    public boolean isNoItemsMessageVisible() {
-        return noItemsMessage.isDisplayed();
-    }
-
-    public void verifyNoItemsMessageDesign() {
-         //Implementation to verify the No Items message against Figma design. 
-         // This will likely involve getting the text, size and checking styling attributes using Selenium
-    }
-
-    // Add methods for handling other scenarios like empty cart, error messages etc.
 }
+
+//Add more Page Objects as needed (e.g., LoginPage, etc.)
